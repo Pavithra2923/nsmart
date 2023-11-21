@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Image, Text, View, StyleSheet, TextInput, TouchableOpacity, Alert, Button, Keyboard } from 'react-native';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { fetchApi } from '../../common/utils/Api';
 import { config } from '../../../config';
 import { Message } from '../../common/components/Alertify';
 import { useDispatch } from 'react-redux';
 import { login } from './actions';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 
 
 export default function LoginScreen ({navigation}) {
@@ -21,7 +23,9 @@ export default function LoginScreen ({navigation}) {
     //     Alert.alert('forget')
     // }
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    crashlytics().log('App mounted.');
+  }, []);
     const [logindetails, setLogin] = useState({
         email: '',
         password: ''
@@ -32,6 +36,20 @@ export default function LoginScreen ({navigation}) {
             [field]: value,
         }));
     };
+    const crasdhh = () =>{
+       try{
+
+if(h){
+    alert('try')
+
+}    }catch(e){
+    ;
+    crashlytics().crash()
+console.log('e :>> ', e);
+
+       }
+
+    }
     // Function to handle login
     // const login = async (logindetails) => {
 
@@ -70,6 +88,7 @@ export default function LoginScreen ({navigation}) {
     //     login(logindetails);
     //   };
     const loginHandle = async (loginData) => {
+     try{
         Keyboard.dismiss()
         if (loginData.email.length == 0 || loginData.password.length == 0) {
           Message('Wrong Input!', 'UserName or password field cannot be empty.');
@@ -77,33 +96,50 @@ export default function LoginScreen ({navigation}) {
         }
         console.log('loginData', { ...loginData,  })
         dispatch(login({ ...loginData,  }));
-      };
-    return (
-        <View style={styles.container}>
-            {/* <Image source={require('../../common/assets/images/signup.png')} style={styles.img} />
-            <Image source={require('../../common/assets/images/logo.png')} style={styles.img} />
-            <Text style={styles.title}>hello again!</Text>
-            <Text style={styles.subtitle}>wellcome back you’ve been missed!</Text> */}
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                onChangeText={(text) => handleChange('email', text)}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                // secureTextEntry={true}
-                onChangeText={(text) => handleChange('password', text)}
-            />
-            <Text style={styles.forget} >forget your password?</Text>
-            <TouchableOpacity style={styles.customButton} onPress={()=>loginHandle(logindetails)} >
-                <Text style={styles.buttonText}>Sign in</Text>
-            </TouchableOpacity>
-            {/* <Image source={require('../assets/Image/forget_pass.png')} style={styles.img} />
-            <Text style={styles.new}>New to N Smart ? <Text style={styles.signup} onPress={onNewRegister}> Sign up</Text></Text> */}
-        </View>
+     }catch(e){
+        crashlytics().log("IconDropdown Screen Failed");
+       
+        console.log('et', e)
 
-    );
+     }
+      };
+    try{
+        return (
+            <View style={styles.container}>
+                {/* <Image source={require('../../common/assets/images/signup.png')} style={styles.img} />
+                <Image source={require('../../common/assets/images/logo.png')} style={styles.img} />
+                <Text style={styles.title}>hello again!</Text>
+                <Text style={styles.subtitle}>wellcome back you’ve been missed!</Text> */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    onChangeText={(text) => handleChange('email', text)}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Password"
+                    // secureTextEntry={true}
+                    onChangeText={(text) => handleChange('password', text)}
+                />
+                <Text style={styles.forget} >forget your password?</Text>
+                <TouchableOpacity style={styles.customButton} onPress={()=> crasdhh()} >
+                    <Text style={styles.buttonText}>Sign in</Text>
+                </TouchableOpacity>
+                {/* <Image source={require('../assets/Image/forget_pass.png')} style={styles.img} />
+                <Text style={styles.new}>New to N Smart ? <Text style={styles.signup} onPress={onNewRegister}> Sign up</Text></Text> */}
+            </View>
+    
+        );
+    }catch(e){
+        crashlytics().log("IconDropdown Screen Failed");
+    crashlytics().recordError(e);
+    console.log('et', e)
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginHorizontal: 15 }}>
+        <Text style={{ fontFamily: FONT_FAMILY, color: colors.textblack }}>{config.UNKNOWN_ERROR}</Text>
+      </View>
+    )
+    }
 };
 
 const styles = StyleSheet.create({

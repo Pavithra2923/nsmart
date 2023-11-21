@@ -37,8 +37,8 @@ import { logout } from './actions';
           logout:false,
           userToken: Math.floor(Math.random() * 100) + 1,
           userInfo: action.payload,
-          country_code:action.payload.user.market.country_code,
-          currency_code:action.payload.user.market.currency_code,
+          // country_code:action.payload.user.market.country_code,
+          // currency_code:action.payload.user.market.currency_code,
         };
       case LOG_ERROR:
         AsyncStorage.removeItem('userData')

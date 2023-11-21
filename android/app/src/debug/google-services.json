@@ -1,0 +1,29 @@
+  {
+  "project_info": {
+    "project_number": "901621414771",
+    "project_id": "nsmart-3ea24",
+    "storage_bucket": "nsmart-3ea24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901621414771:android:58a5e4c8779637febfe306",
+        "android_client_info": {
+          "package_name": "com.nsmart_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7R-TOlfijyuRf5u9BtbQMQeiN3MtBsw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -15,6 +15,7 @@ import { DEFAULT_IMAGE } from '../../utils/Images.js';
 import { DrawerActions } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../domain/session/actions.js';
+import analytics from '@react-native-firebase/analytics'
 // import AsyncStorage from '@react-native-community/async-storage';
 // import { logout } from '../../../domain/session/actions.js';
 // import { DrawerActions } from '@react-navigation/native';
@@ -43,7 +44,7 @@ export default function DrawerContent(props) {
                         <Text allowFontScaling={false} style={styles.labelStyle}>Home</Text>
                     )}
                     onPress={() => {
-                        props.navigation.navigate("HomeStack", { screen: HOME_ROOT });
+                        props.navigationRef.current?.navigate("HomeStack", { screen: HOME_ROOT });
                     }}
                 />
 
@@ -58,7 +59,7 @@ export default function DrawerContent(props) {
                         </Text>
                     )}
                     onPress={() => {
-                        props.navigation.navigate(SEARCH_ROOT)
+                        props.navigationRef.current?.navigate(SEARCH_ROOT)
                     }}
                 />
 
@@ -71,8 +72,8 @@ export default function DrawerContent(props) {
                             Profile
                         </Text>
                     )}
-                    onPress={() => {
-                        props.navigation.navigate(PROFILE_ROOT)
+                    onPress={async () => {
+                        props.navigationRef.current?.navigate(PROFILE_ROOT), await analytics().logEvent('profile')
                     }}
                 />
 
@@ -86,7 +87,7 @@ export default function DrawerContent(props) {
                         </Text>
                     )}
                     onPress={() => {
-                        props.navigation.navigate(SETTINGS_ROOT)
+                        props.navigationRef.current?.navigate(SETTINGS_ROOT)
                     }}
                 />
             </View>
